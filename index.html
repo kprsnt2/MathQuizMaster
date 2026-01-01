@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz Master | Fun Math Practice</title>
+    <meta name="description"
+        content="Interactive math quiz app for students - practice addition, subtraction, multiplication, and division with fun challenges!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Floating Math Symbols Background -->
+        <div class="floating-symbols" id="floatingSymbols"></div>
+
+        <!-- Start Screen -->
+        <div class="screen active" id="startScreen">
+            <div class="logo-container">
+                <div class="logo">🧮</div>
+                <h1 class="app-title">Math Quiz Master</h1>
+                <p class="tagline">Become a Math Champion! 🏆</p>
+            </div>
+
+            <div class="settings-card">
+                <h2>Choose Your Challenge</h2>
+
+                <div class="setting-group">
+                    <label>Difficulty Level</label>
+                    <div class="button-group" id="difficultyGroup">
+                        <button class="option-btn active" data-value="easy">😊 Easy</button>
+                        <button class="option-btn" data-value="medium">🤔 Medium</button>
+                        <button class="option-btn" data-value="hard">🔥 Hard</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Operations</label>
+                    <div class="operations-grid" id="operationsGroup">
+                        <button class="op-btn active" data-op="+" title="Addition">➕</button>
+                        <button class="op-btn active" data-op="-" title="Subtraction">➖</button>
+                        <button class="op-btn active" data-op="×" title="Multiplication">✖️</button>
+                        <button class="op-btn" data-op="÷" title="Division">➗</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Number of Questions</label>
+                    <div class="button-group" id="questionsGroup">
+                        <button class="option-btn" data-value="5">5</button>
+                        <button class="option-btn active" data-value="10">10</button>
+                        <button class="option-btn" data-value="20">20</button>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <label>Time per Question</label>
+                    <div class="button-group" id="timerGroup">
+                        <button class="option-btn" data-value="0">∞ No Limit</button>
+                        <button class="option-btn active" data-value="15">15 sec</button>
+                        <button class="option-btn" data-value="10">10 sec</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="start-btn" id="startBtn">
+                <span>Start Quiz!</span>
+                <span class="btn-icon">🚀</span>
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="screen" id="quizScreen">
+            <div class="quiz-header">
+                <div class="progress-info">
+                    <span id="questionCounter">Question 1/10</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-box score-box">
+                        <span class="stat-icon">⭐</span>
+                        <span id="scoreDisplay">0</span>
+                    </div>
+                    <div class="stat-box timer-box" id="timerBox">
+                        <span class="stat-icon">⏱️</span>
+                        <span id="timerDisplay">15</span>
+                    </div>
+                    <div class="stat-box streak-box">
+                        <span class="stat-icon">🔥</span>
+                        <span id="streakDisplay">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card" id="questionCard">
+                <div class="question-content">
+                    <span class="num1" id="num1">12</span>
+                    <span class="operator" id="operator">+</span>
+                    <span class="num2" id="num2">8</span>
+                    <span class="equals">=</span>
+                    <span class="answer-placeholder">?</span>
+                </div>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-options" id="answerOptions">
+                    <!-- Options will be generated dynamically -->
+                </div>
+
+                <div class="keyboard-input" id="keyboardInput" style="display: none;">
+                    <input type="number" id="answerInput" placeholder="Type your answer..." autocomplete="off">
+                    <button class="submit-btn" id="submitBtn">✓</button>
+                </div>
+            </div>
+
+            <div class="feedback-overlay" id="feedbackOverlay">
+                <div class="feedback-content">
+                    <span class="feedback-icon" id="feedbackIcon">✓</span>
+                    <span class="feedback-text" id="feedbackText">Correct!</span>
+                    <div class="feedback-explanation" id="feedbackExplanation"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="screen" id="resultsScreen">
+            <div class="results-card">
+                <div class="trophy-container">
+                    <span class="trophy" id="trophyIcon">🏆</span>
+                </div>
+                <h2 class="results-title" id="resultsTitle">Excellent Work!</h2>
+                <p class="results-subtitle" id="resultsSubtitle">You're a Math Superstar!</p>
+
+                <div class="score-circle">
+                    <div class="score-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="ring-bg" cx="50" cy="50" r="45" />
+                            <circle class="ring-fill" id="scoreRing" cx="50" cy="50" r="45" />
+                        </svg>
+                    </div>
+                    <div class="score-text">
+                        <span class="final-score" id="finalScore">8</span>
+                        <span class="score-divider">/</span>
+                        <span class="total-questions" id="totalQuestions">10</span>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="result-stat">
+                        <span class="stat-value" id="correctCount">8</span>
+                        <span class="stat-label">Correct ✓</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-value" id="wrongCount">2</span>
+                        <span class="stat-label">Wrong ✗</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-value" id="avgTime">5.2s</span>
+                        <span class="stat-label">Avg Time</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-value" id="bestStreak">5</span>
+                        <span class="stat-label">Best Streak 🔥</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn primary" id="playAgainBtn">
+                        <span>Play Again</span>
+                        <span>🔄</span>
+                    </button>
+                    <button class="action-btn secondary" id="newSettingsBtn">
+                        <span>New Settings</span>
+                        <span>⚙️</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="confetti-container" id="confettiContainer"></div>
+
+            <!-- AI Insights Section -->
+            <div class="ai-insights-card" id="aiInsightsCard">
+                <div class="ai-insights-header">
+                    <span class="ai-icon">🤖</span>
+                    <span>AI Tutor Feedback</span>
+                </div>
+                <div class="ai-insights-content" id="aiInsightsContent">
+                    <div class="ai-loading">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Panel (Slide-out) -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-title">
+                <span class="chat-icon">🤖</span>
+                <span>Math Buddy AI</span>
+            </div>
+            <button class="chat-close" id="chatClose">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message assistant">
+                <div class="message-bubble">
+                    Hi there! 👋 I'm Math Buddy, your AI tutor!
+
+                    Ask me anything about math - like "How do I multiply two-digit numbers?" or "Can you explain
+                    fractions?"
+
+                    I'm here to help! 🎯
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" id="chatInput" placeholder="Ask me anything about math..." autocomplete="off">
+            <button class="chat-send" id="chatSend">
+                <span>➤</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Toggle Button (Fixed) -->
+    <button class="chat-toggle" id="chatToggle" title="Ask AI Tutor">
+        <span class="chat-toggle-icon">🤖</span>
+        <span class="chat-toggle-text">AI Help</span>
+    </button>
+
+    <!-- AI Help Button (During Quiz) -->
+    <button class="quick-help-btn" id="quickHelpBtn" style="display: none;">
+        <span>💡</span>
+        <span>Hint</span>
+    </button>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
